@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  searxng:
+    image: searxng/searxng
+    container_name: searxng
+    ports:
+      - "9111:8080"
+    volumes:
+      - ./searxng-data:/etc/searxng
+    environment:
+      - BASE_URL=http://localhost:9111/
+      - INSTANCE_NAME=gus-searxng
+    restart: unless-stopped
+
+  mcp-service:
+    container_name: mcp-searxng
+    build:
+      context: .
+      dockerfile_inline: |
+        FROM python:3.9-slim
+        RUN pip install uvx
+        CMD SEARXNG_URL=http://searxng:8080 uvx MCP-searxng
+    environment:
+      - SEARXNG_URL=http://searxng:8080
+    depends_on:
+      - searxng
+    restart: unless-stopped
