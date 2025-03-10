@@ -17,7 +17,7 @@ services:
       context: .
       dockerfile_inline: |
         FROM python:3.9-slim
-        RUN pip install uvx
+        RUN pip install uv
         CMD SEARXNG_URL=http://searxng:8080 uvx mcp-searxng
     environment:
       - SEARXNG_URL=http://searxng:8080
