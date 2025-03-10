@@ -19,7 +19,8 @@ services:
         FROM python:3.9-slim
         RUN pip install uv
         uv tool install mcp-searxng
-        CMD SEARXNG_URL=http://searxng:8080 uvx mcp-searxng
+        ENV SEARXNG_URL http://searxng:8080
+        CMD uv tool run mcp-searxng
     environment:
       - SEARXNG_URL=http://searxng:8080
     depends_on:
