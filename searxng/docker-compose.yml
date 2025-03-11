@@ -2,7 +2,7 @@
 #            "command": "powershell",
 #            "args": [
 #                "-command",
-#                "(Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/gusbicalho/dockerfiles-public/refs/heads/main/searxng/docker-compose.yml').Content | Out-File -FilePath docker-compose.yml; docker-compose up -d; docker attach mcp-searxng"
+#                "(Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/gusbicalho/dockerfiles-public/refs/heads/main/searxng/docker-compose.yml').Content | Out-File -FilePath docker-compose.yml; docker-compose up -d; docker exec -it mcp-searxng uv tool run mcp-searxng"
 #            ]
 #        },
 services:
@@ -27,7 +27,6 @@ services:
         RUN pip install uv
         uv tool install mcp-searxng
         ENV SEARXNG_URL http://searxng:8080
-        CMD uv tool run mcp-searxng
     environment:
       - SEARXNG_URL=http://searxng:8080
     depends_on:
