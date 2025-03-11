@@ -2,13 +2,13 @@
 #            "command": "powershell",
 #            "args": [
 #                "-command",
-#                "(Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/gusbicalho/dockerfiles-public/refs/heads/main/searxng/docker-compose.yml').Content | Out-File -FilePath docker-compose.yml; docker-compose up -d; docker exec -it mcp-searxng uv tool run mcp-searxng"
+#                "(Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/gusbicalho/dockerfiles-public/refs/heads/main/searxng/docker-compose.yml').Content | Out-File -FilePath docker-compose.yml; docker-compose up -d; docker exec -it x-mcp-searxng uv tool run mcp-searxng"
 #            ]
 #        },
 services:
-  searxng:
+  x-searxng:
     image: searxng/searxng
-    container_name: searxng
+    container_name: x-searxng
     ports:
       - "9111:8080"
     volumes:
@@ -18,19 +18,19 @@ services:
       - INSTANCE_NAME=gus-searxng
     restart: unless-stopped
 
-  mcp-service:
-    container_name: mcp-searxng
+  x-mcp-service:
+    container_name: x-mcp-searxng
     build:
       context: .
       dockerfile_inline: |
         FROM python:3.9-slim
         RUN pip install uv
         uv tool install mcp-searxng
-        ENV SEARXNG_URL http://searxng:8080
+        ENV SEARXNG_URL http://x-searxng:8080
     environment:
-      - SEARXNG_URL=http://searxng:8080
+      - SEARXNG_URL=http://x-searxng:8080
     depends_on:
-      - searxng
+      - x-searxng
     restart: unless-stopped
     tty: true
     stdin_open: true
