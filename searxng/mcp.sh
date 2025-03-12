@@ -16,11 +16,8 @@ cd /tmp/searxng;
 cat << EOF > docker-compose.yml
 services:
   x-searxng:
+    image: searxng/searxng
     container_name: x-searxng
-    build:
-      context: .
-      dockerfile_inline: |
-        FROM searxng/searxng
     volumes:
       - ./searxng-data:/etc/searxng
     environment:
