@@ -1,5 +1,15 @@
 #! /bin/bash
 
+# To set this up in MCP config:
+# "searxng": {
+#     "command": "wsl",
+#     "args": [
+#         "bash",
+#         "-c",
+#         "curl --output /tmp/searxng-mcp.sh https://raw.githubusercontent.com/gusbicalho/dockerfiles-public/refs/heads/main/searxng/mcp.sh; chmod +x /tmp/searxng-mcp.sh; /tmp/searxng-mcp.sh"
+#     ]
+# },
+
 mkdir -p /tmp/searxng;
 cd /tmp/searxng;
 
