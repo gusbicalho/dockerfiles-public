@@ -6,8 +6,11 @@ cd /tmp/searxng;
 cat << EOF > docker-compose.yml
 services:
   x-searxng:
-    image: searxng/searxng
     container_name: x-searxng
+    build:
+      context: .
+      dockerfile_inline: |
+        FROM searxng/searxng
     volumes:
       - ./searxng-data:/etc/searxng
     environment:
@@ -35,4 +38,5 @@ EOF
 
 docker-compose down;
 docker-compose up -d;
+docker exec x-searxng sh -c 'awk '"'"'/^[[:space:]]*formats:$/{format_line=$0; getline; if($0 ~ /^[[:space:]]*- html$/){indent=$0; gsub(/- html$/,"",indent); print indent "formats: [html, json]"; next}} {print}'"'"' /etc/searxng/settings.yml > /tmp/settings.yml; mv /tmp/settings.yml /etc/searxng/settings.yml'
 docker exec -i x-mcp-searxng uv tool run mcp-searxng
