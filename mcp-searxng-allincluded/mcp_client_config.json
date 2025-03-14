@@ -1,0 +1,14 @@
+{
+    "mcpServers": {
+        "searxng": {
+            "command": "docker",
+            "args": [
+                "run",
+                "--rm",
+                "-i",
+                "--init",
+                "gusbicalho/mcp-searxng-allincluded"
+            ]
+        }
+    }
+}
